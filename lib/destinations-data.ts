@@ -32,7 +32,7 @@ export const COUNTRIES: Country[] = [
       {
         name: "Madurai Meenakshi Temple",
         description: "Dravidian masterpiece with ornate gopurams and rich history.",
-        imageUrl: "public\mahabalipuram-shore-temple-tamil-nadu.png",
+        imageUrl: "/ahabalipuram-shore-temple-tamil-nadu.png",
         imageAlt: "Meenakshi Amman Temple gopurams in Madurai, India",
       },
       {
