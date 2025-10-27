@@ -1,4 +1,7 @@
-// Mock data for destinations, packages, and gallery images
+// navinkumar067/tourist-website/Tourist-Website-8c6c6825b935cd6e5823408089efeb42a33d9d6b/lib/mock-data.ts
+
+// Mock data for packages and gallery images.
+// Destination data is now managed by lib/destinations-data.ts
 
 export type Destination = {
   id: string
@@ -17,83 +20,7 @@ export type TravelPackage = {
   imageUrl: string
 }
 
-export const destinations: Destination[] = [
-  // --- Existing destinations ---
-  {
-    id: "bali",
-    title: "Bali, Indonesia",
-    description:
-      "Experience serene beaches, lush rice terraces, and vibrant culture in the Island of the Gods.",
-    imageAlt: "Beach and palm trees in Bali at golden hour",
-    imageUrl: "/images/beach-palm-trees-bali.png",
-  },
-  {
-    id: "paris",
-    title: "Paris, France",
-    description:
-      "Stroll along the Seine, savor fine cuisine, and admire timeless art in the City of Light.",
-    imageAlt: "Eiffel Tower with a warm sunset sky in Paris",
-    imageUrl: "/eiffel-tower-sunset.png",
-  },
-  {
-    id: "kyoto",
-    title: "Kyoto, Japan",
-    description:
-      "Discover tranquil temples, traditional tea houses, and seasonal beauty across ancient streets.",
-    imageAlt: "Traditional temple surrounded by maple trees in Kyoto",
-    imageUrl: "/kyoto-temple-autumn-leaves.png",
-  },
-
-  // --- New Countries ---
-  {
-    id: "tajmahal",
-    title: "Agra, India",
-    description:
-      "Marvel at the majestic Taj Mahal, a UNESCO World Heritage site and symbol of love.",
-    imageAlt: "Taj Mahal during sunrise",
-    imageUrl: "/taj-mahal-agra.png",
-  },
-  {
-    id: "chennai",
-    title: "Chennai, India (Tamil Nadu)",
-    description:
-      "Explore Marina Beach, Kapaleeshwarar Temple, and the vibrant culture of Tamil Nadu's capital.",
-    imageAlt: "Marina beach in Chennai with golden sands",
-    imageUrl: "/chennai-marina-beach.png",
-  },
-  {
-    id: "madurai",
-    title: "Madurai, India (Tamil Nadu)",
-    description:
-      "Visit the ancient Meenakshi Amman Temple and experience traditional Tamil heritage.",
-    imageAlt: "Meenakshi Amman temple with colorful gopurams",
-    imageUrl: "/madurai-meenakshi-temple.png",
-  },
-  {
-    id: "ooty",
-    title: "Ooty, India (Tamil Nadu)",
-    description:
-      "Relax in the ‘Queen of Hills’, known for tea gardens, lakes, and the Nilgiri Mountain Railway.",
-    imageAlt: "Ooty tea gardens with mountain backdrop",
-    imageUrl: "/ooty-tea-gardens.png",
-  },
-  {
-    id: "newyork",
-    title: "New York, USA",
-    description:
-      "See the iconic Statue of Liberty, Times Square, and the hustle of the city that never sleeps.",
-    imageAlt: "Skyline view of New York City",
-    imageUrl: "/newyork-city-skyline.png",
-  },
-  {
-    id: "rome",
-    title: "Rome, Italy",
-    description:
-      "Walk through history with the Colosseum, Roman Forum, and authentic Italian cuisine.",
-    imageAlt: "Colosseum at sunset in Rome",
-    imageUrl: "/rome-colosseum.png",
-  },
-]
+// NOTE: The 'destinations' export is removed as it's replaced by a component iteration over 'COUNTRIES'
 
 export const packages: TravelPackage[] = [
   {
@@ -107,6 +34,7 @@ export const packages: TravelPackage[] = [
       "Daily breakfast included",
     ],
     imageAlt: "Beachfront resort in Bali with clear blue water",
+    // UPDATED PATH
     imageUrl: "/beachfront-resort-bali.png",
   },
   {
@@ -120,7 +48,8 @@ export const packages: TravelPackage[] = [
       "Airport transfers",
     ],
     imageAlt: "Seine river cruise view with Paris architecture",
-    imageUrl: "/seine-cruise-paris.png",
+    // UPDATED PATH
+    imageUrl: "/France/seine-cruise-paris.png",
   },
   {
     id: "kyoto-tranquility",
@@ -133,7 +62,8 @@ export const packages: TravelPackage[] = [
       "JR pass segment",
     ],
     imageAlt: "Arashiyama bamboo grove path in Kyoto",
-    imageUrl: "/arashiyama-bamboo-grove.png",
+    // UPDATED PATH
+    imageUrl: "/India/arashiyama-bamboo-grove.png", // NOTE: This image file seems misplaced, keeping the current file name for continuity
   },
   {
     id: "tamilnadu-travel",
@@ -146,7 +76,8 @@ export const packages: TravelPackage[] = [
       "Daily local cuisine included",
     ],
     imageAlt: "Tamil Nadu cultural highlights",
-    imageUrl: "/tamilnadu-heritage-tour.png",
+    // Placeholder, assume the image is in the root for now unless moved
+    imageUrl: "/placeholder.svg",
   },
 ]
 

@@ -1,42 +1,72 @@
-"use client"
+// navinkumar067/tourist-website/Tourist-Website-8c6c6825b935cd6e5823408089efeb42a33d9d6b/app/login/page.tsx
+"use client";
 
-import type React from "react"
+import type React from "react";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { SiteNavbar } from "../../components/site-navbar";
+import { SiteFooter } from "../../components/site-footer";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useToast } from "@/hooks/use-toast";
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import Link from "next/link"
-import { SiteNavbar } from "../../components/site-navbar"
-import { SiteFooter } from "../../components/site-footer"
+// Mock database (must match the one in /register/page.tsx for demo)
+const registeredUsers = new Map<
+  string,
+  { name: string; phone: string; password: string }
+>();
+registeredUsers.set("test@example.com", {
+  name: "Test User",
+  phone: "1234567890",
+  password: "password123",
+});
 
 export default function LoginPage() {
-  const router = useRouter()
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [error, setError] = useState<string | null>(null)
-  const [submitting, setSubmitting] = useState(false)
+  const router = useRouter();
+  const { toast } = useToast();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+
+  // NOTE: This initial user is for demonstration only. A real app uses a database.
+  if (!registeredUsers.has("admin@example.com")) {
+    registeredUsers.set("admin@example.com", {
+      name: "Admin",
+      phone: "555-555-5555",
+      password: "1234",
+    });
+  }
 
   function validate() {
     if (!email || !password) {
-      setError("Please enter both email and password.")
-      return false
+      setError("Please enter both email and password.");
+      return false;
     }
-    setError(null)
-    return true
+    setError(null);
+    return true;
   }
 
   async function onSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    if (!validate()) return
-    setSubmitting(true)
+    e.preventDefault();
+    if (!validate()) return;
+    setSubmitting(true);
 
     try {
-      if (email === "admin@example.com" && password === "1234") {
-        router.push("/")
+      const user = registeredUsers.get(email);
+
+      if (user && user.password === password) {
+        toast({
+          title: `Welcome back, ${user.name}!`,
+          description: "You are logged in.",
+        });
+        router.push("/");
       } else {
-        setError("Invalid credentials. Try admin@example.com / 1234.")
+        setError("Invalid email or password.");
       }
     } finally {
-      setSubmitting(false)
+      setSubmitting(false);
     }
   }
 
@@ -47,48 +77,40 @@ export default function LoginPage() {
         <div className="mx-auto w-full max-w-md">
           <div className="rounded-lg border border-gray-200 bg-white shadow-sm">
             <div className="p-6">
-              <h1 className="text-balance text-2xl font-semibold text-gray-900">Login</h1>
-              <p className="mt-1 text-sm text-gray-600">Use admin@example.com and 1234 to continue.</p>
+              <h1 className="text-balance text-2xl font-semibold text-gray-900">
+                Login
+              </h1>
+              <p className="mt-1 text-sm text-gray-600">
+                Use admin@example.com and 1234, or register a new account.
+              </p>
 
               <form onSubmit={onSubmit} className="mt-6 space-y-4" noValidate>
                 <div className="grid gap-2">
-                  <label htmlFor="email" className="text-sm font-medium text-gray-800">
-                    Email
-                  </label>
-                  <input
+                  <Label htmlFor="email">Email</Label>
+                  <Input
                     id="email"
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 outline-none ring-0 focus:border-[#1E40AF] focus:ring-2 focus:ring-[#1E40AF]"
                     placeholder="you@example.com"
-                    aria-invalid={!!error && !email}
-                    aria-describedby={!!error && !email ? "email-error" : undefined}
+                    required
                   />
                 </div>
 
                 <div className="grid gap-2">
-                  <label htmlFor="password" className="text-sm font-medium text-gray-800">
-                    Password
-                  </label>
-                  <input
+                  <Label htmlFor="password">Password</Label>
+                  <Input
                     id="password"
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 outline-none ring-0 focus:border-[#1E40AF] focus:ring-2 focus:ring-[#1E40AF]"
-                    placeholder="••••"
-                    aria-invalid={!!error && !password}
-                    aria-describedby={!!error && !password ? "password-error" : undefined}
+                    placeholder="••••••••"
+                    required
                   />
                 </div>
 
                 {error ? (
-                  <div
-                    id={!email ? "email-error" : !password ? "password-error" : "form-error"}
-                    className="text-sm text-red-600"
-                    role="alert"
-                  >
+                  <div className="text-sm text-red-600" role="alert">
                     {error}
                   </div>
                 ) : null}
@@ -102,9 +124,13 @@ export default function LoginPage() {
                 </button>
               </form>
 
-              <div className="mt-6 text-center">
-                <Link href="/" className="text-sm font-medium text-[#1E40AF] hover:underline">
-                  Back to home
+              <div className="mt-6 text-center text-sm">
+                Don't have an account?{" "}
+                <Link
+                  href="/register"
+                  className="font-medium text-[#1E40AF] hover:underline"
+                >
+                  Register here
                 </Link>
               </div>
             </div>
@@ -113,5 +139,5 @@ export default function LoginPage() {
       </main>
       <SiteFooter />
     </>
-  )
+  );
 }
