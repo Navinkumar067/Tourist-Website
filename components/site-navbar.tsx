@@ -14,7 +14,6 @@ function scrollToId(id: string) {
 const navItems = [
   { id: "home", label: "Home" },
   { id: "destinations", label: "Destinations" },
-  { id: "packages", label: "Packages" },
   { id: "gallery", label: "Gallery" },
   { id: "contact", label: "Contact" },
 ]

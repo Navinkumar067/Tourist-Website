@@ -1,5 +1,5 @@
-import Image from "next/image"
-import Link from "next/link"
+import Image from "next/image";
+import Link from "next/link";
 
 export function Hero() {
   return (
@@ -23,18 +23,13 @@ export function Hero() {
               Your next unforgettable journey starts here
             </h1>
             <p className="max-w-xl text-pretty text-base text-gray-100 sm:text-lg">
-              Discover curated destinations, tailored packages, and seamless experiences designed for every traveler.
+              Discover curated destinations, tailored packages, and seamless
+              experiences designed for every traveler.
             </p>
             <div className="mt-2 flex flex-wrap items-center gap-3">
               <Link
-                href="#packages"
-                className="rounded-md bg-[#FBBF24] px-5 py-2.5 text-sm font-semibold text-[#1E40AF] shadow transition hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FBBF24]/70"
-              >
-                View Packages
-              </Link>
-              <Link
                 href="#destinations"
-                className="rounded-md border border-white/70 bg-white/10 px-5 py-2.5 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
+                className="rounded-md bg-[#FBBF24] px-5 py-2.5 text-sm font-semibold text-[#1E40AF] shadow transition hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FBBF24]/70"
               >
                 Featured Destinations
               </Link>
@@ -43,5 +38,5 @@ export function Hero() {
         </div>
       </div>
     </header>
-  )
+  );
 }

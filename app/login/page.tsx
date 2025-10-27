@@ -1,4 +1,3 @@
-// navinkumar067/tourist-website/Tourist-Website-8c6c6825b935cd6e5823408089efeb42a33d9d6b/app/login/page.tsx
 "use client";
 
 import type React from "react";
@@ -11,16 +10,28 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 
-// Mock database (must match the one in /register/page.tsx for demo)
+// --- Mock Database (must match Admin Dashboard setup) ---
 const registeredUsers = new Map<
   string,
   { name: string; phone: string; password: string }
 >();
+
+// Admin account
+registeredUsers.set("navin@123.com", {
+  name: "Navin (Admin)",
+  phone: "8838892",
+  password: "8838892",
+});
+
+// Demo user
 registeredUsers.set("test@example.com", {
   name: "Test User",
   phone: "1234567890",
   password: "password123",
 });
+
+// --- Constants ---
+const ADMIN_EMAIL = "navin@123.com";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -29,15 +40,6 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
-
-  // NOTE: This initial user is for demonstration only. A real app uses a database.
-  if (!registeredUsers.has("admin@example.com")) {
-    registeredUsers.set("admin@example.com", {
-      name: "Admin",
-      phone: "555-555-5555",
-      password: "1234",
-    });
-  }
 
   function validate() {
     if (!email || !password) {
@@ -57,11 +59,20 @@ export default function LoginPage() {
       const user = registeredUsers.get(email);
 
       if (user && user.password === password) {
+        // ✅ Save mock session in localStorage
+        localStorage.setItem("userEmail", email);
+
         toast({
           title: `Welcome back, ${user.name}!`,
-          description: "You are logged in.",
+          description: "You are logged in successfully.",
         });
-        router.push("/");
+
+        // ✅ Redirect admin to /admin, others to /
+        if (email === ADMIN_EMAIL) {
+          router.push("/admin");
+        } else {
+          router.push("/");
+        }
       } else {
         setError("Invalid email or password.");
       }
@@ -73,7 +84,7 @@ export default function LoginPage() {
   return (
     <>
       <SiteNavbar />
-      <main className="min-h-screen px-4 py-10">
+      <main className="min-h-screen px-4 py-10 bg-gray-50">
         <div className="mx-auto w-full max-w-md">
           <div className="rounded-lg border border-gray-200 bg-white shadow-sm">
             <div className="p-6">
@@ -81,7 +92,8 @@ export default function LoginPage() {
                 Login
               </h1>
               <p className="mt-1 text-sm text-gray-600">
-                Use admin@example.com and 1234, or register a new account.
+                Use <strong>navin@123.com</strong> / <strong>8838892</strong> for
+                admin access, or register a new account.
               </p>
 
               <form onSubmit={onSubmit} className="mt-6 space-y-4" noValidate>
@@ -109,11 +121,11 @@ export default function LoginPage() {
                   />
                 </div>
 
-                {error ? (
+                {error && (
                   <div className="text-sm text-red-600" role="alert">
                     {error}
                   </div>
-                ) : null}
+                )}
 
                 <button
                   type="submit"
