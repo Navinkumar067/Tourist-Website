@@ -46,4 +46,19 @@ export const galleryImages: { id: string; alt: string; src: string }[] = [
     alt: "Cliffside village overlooking the sea",
     src: "/Global/italy1.jpg",
   },
+  {
+    id: "gal-7",
+    alt: "Fort",
+    src: "/Global/India1.jpg",
+  },
+  {
+    id: "gal-8",
+    alt: "Boating",
+    src: "/Global/Thailand.jpg",
+  },
+  {
+    id: "gal-9",
+    alt: "Visiting Taj Mahal",
+    src: "/Global/swaminarayan.jpg",
+  },
 ]

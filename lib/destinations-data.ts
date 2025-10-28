@@ -443,18 +443,7 @@ export const COUNTRIES: Country[] = [
         imageAlt: "Colosseum arches in Rome",
       },
       {
-        name: "Venice Canals",
-        description: "Gondolas, bridges, and romantic waterways.",
-        imageUrl: "/Italy/venice-canals.png",
-        package: {
-          title: "Romantic Gondola Serenade (45 Mins)",
-          price: "€120",
-          highlights: ["Private gondola ride", "Singing gondolier", "Route through hidden canals"],
-        },
-        imageAlt: "Venetian canal with gondola",
-      },
-      {
-        name: "Rialto Bridge (Ponte di Rialto)",
+        name: "Rialto Bridge",
         description: "One of the four bridges spanning the Grand Canal in Venice.",
         imageUrl: "/Italy/ponte.jpg",
         package: {
@@ -489,7 +478,7 @@ export const COUNTRIES: Country[] = [
       {
         name: "Amalfi Coast",
         description: "Cliffside villages and crystalline Mediterranean.",
-        imageUrl: "/placeholder.svg?height=220&width=360",
+        imageUrl: "/Italy/amalfi.jpg",
         package: {
           title: "Amalfi Coast Scenic Drive (3D/2N)",
           price: "€890",
