@@ -24,7 +24,7 @@ export const galleryImages: { id: string; alt: string; src: string }[] = [
   {
     id: "gal-2",
     alt: "Historic city street with warm lights at dusk",
-    src: "/Global/KASHMIR.JPg",
+    src: "/Global/KASHMIR.jpg",
   },
   {
     id: "gal-3",
