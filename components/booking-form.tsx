@@ -62,7 +62,6 @@ export function BookingForm() {
     requests: "",
   });
 
-  // Prefill destination if provided from package card
   useEffect(() => {
     const dest = searchParams.get("destination");
     if (dest && DESTINATION_OPTIONS.includes(dest as any)) {
@@ -74,7 +73,6 @@ export function BookingForm() {
   const nights = nightsBetween(form.startDate, form.endDate);
   const base = BASE_PRICING[form.destination] ?? 0;
   const estimatedTotal = useMemo(() => {
-    // Simple estimate: base per guest, + $100 per night per booking for accommodations
     const perGuest = base * Math.max(1, guestsNum);
     const lodging = nights > 0 ? 100 * nights : 0;
     return perGuest + lodging;
@@ -105,7 +103,6 @@ export function BookingForm() {
       return;
     }
     setSubmitting(true);
-    // In a real app, call an API here
     await new Promise((r) => setTimeout(r, 700));
     setSubmitting(false);
     setOpen(true);
@@ -259,7 +256,6 @@ export function BookingForm() {
           </div>
         </form>
 
-        {/* Summary */}
         <aside className="md:col-span-1">
           <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm sm:p-6">
             <h2 className="text-lg font-semibold text-gray-900">

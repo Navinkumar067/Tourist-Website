@@ -24,7 +24,7 @@ const MOCK_REGISTERED_USERS = new Map<
   string,
   { name: string; phone: string; password: string }
 >();
-// Added new testing user credentials:
+
 MOCK_REGISTERED_USERS.set("navin@123.com", {
   name: "Navin (Admin)",
   phone: "8838892",
@@ -39,14 +39,14 @@ MOCK_REGISTERED_USERS.set("arun@gmail.com", {
 const MOCK_BOOKINGS = [
   {
     id: "B001",
-    user: "Jane Doe",
-    destination: "Paris Delight",
+    user: "Arun",
+    destination: "Paris",
     total: "€1,599",
     status: "Confirmed",
   },
   {
     id: "B002",
-    user: "Navin (Admin)",
+    user: "Navin",
     destination: "Grand Canyon",
     total: "$1,400",
     status: "Pending",
@@ -67,7 +67,6 @@ const MOCK_BOOKINGS = [
   },
 ];
 
-// Set the admin email to the new testing account
 const ADMIN_EMAIL = "navin@123.com";
 
 export default function AdminDashboardPage() {
@@ -75,7 +74,7 @@ export default function AdminDashboardPage() {
   const [userEmail, setUserEmail] = React.useState("");
   const [isAuthenticated, setIsAuthenticated] = React.useState(false);
 
-  // Simulated Authentication Check
+  //Authentication Check
   React.useEffect(() => {
     const loggedInEmail = localStorage.getItem("userEmail");
     if (loggedInEmail === ADMIN_EMAIL) {
@@ -169,7 +168,6 @@ export default function AdminDashboardPage() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="p-0 pt-4">
-                {/* NOTE: This uses USD symbol just to show the sum; actual data is multi-currency */}
                 <div className="text-2xl font-bold">
                   ${totalRevenue.toFixed(2)}
                 </div>
@@ -180,7 +178,6 @@ export default function AdminDashboardPage() {
             </Card>
           </div>
 
-          {/* Recent Bookings Table */}
           <Card className="bg-white shadow-md p-6">
             <CardTitle className="text-xl font-semibold mb-4 p-0">
               Recent Activity

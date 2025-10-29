@@ -48,7 +48,6 @@ export function SiteNavbar() {
       aria-label="Primary"
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
-        {/* Brand */}
         <Link
           href="/#home"
           onClick={(e) => {
@@ -63,7 +62,6 @@ export function SiteNavbar() {
           Travelio
         </Link>
 
-        {/* Mobile toggle */}
         <button
           className="inline-flex items-center justify-center rounded-md p-2 text-gray-700 hover:bg-gray-100 md:hidden"
           aria-label="Toggle navigation menu"
@@ -72,7 +70,6 @@ export function SiteNavbar() {
           <Menu className="h-6 w-6" />
         </button>
 
-        {/* Desktop navigation */}
         <div className="ml-auto hidden items-center gap-6 md:flex">
           <ul className="flex gap-6">
             {navItems.map((item) => (

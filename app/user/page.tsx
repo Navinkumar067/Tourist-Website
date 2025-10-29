@@ -8,7 +8,6 @@ import { SiteNavbar } from "@/components/site-navbar";
 import { SiteFooter } from "@/components/site-footer";
 import { SectionHeading } from "@/components/section-heading";
 
-// Mock booking data for user
 const MOCK_USER_BOOKINGS = [
   {
     id: "B101",
@@ -20,7 +19,7 @@ const MOCK_USER_BOOKINGS = [
   },
   {
     id: "B102",
-    destination: "Paris",
+    destination: "France",
     date: "2025-12-14",
     time: "03:45 PM",
     payment: "Pending",
@@ -48,7 +47,7 @@ export default function UserDashboard() {
 
   const handleLogout = () => {
     localStorage.removeItem("userEmail");
-    router.push("/"); // 🔹 Redirect to home page after logout
+    router.push("/");
   };
 
   if (!user) return null;
