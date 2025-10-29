@@ -27,7 +27,7 @@ registeredUsers.set("navin@123.com", {
 registeredUsers.set("arun@gmail.com", {
   name: "Arun",
   phone: "1234567890",
-  password: "password123",
+  password: "arun123",
 });
 
 // --- Constants ---

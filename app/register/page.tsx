@@ -16,10 +16,10 @@ const registeredUsers = new Map<
   string,
   { name: string; phone: string; password: string }
 >();
-registeredUsers.set("test@example.com", {
-  name: "Test User",
+registeredUsers.set("arun@gmail.com", {
+  name: "Arun",
   phone: "1234567890",
-  password: "password123",
+  password: "arun123",
 });
 
 export default function RegisterPage() {
