@@ -42,14 +42,13 @@ export default function UserDashboard() {
       return;
     }
 
-    // Mock user data
     const name = email === "navin@123.com" ? "Navin (Admin)" : "Arun";
     setUser({ email, name });
   }, [router]);
 
   const handleLogout = () => {
     localStorage.removeItem("userEmail");
-    router.push("/login");
+    router.push("/"); // 🔹 Redirect to home page after logout
   };
 
   if (!user) return null;

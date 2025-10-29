@@ -97,8 +97,7 @@ export function SiteNavbar() {
           {!userEmail ? (
             <Link
               href="/login"
-              className="rounded-md bg-[#1E40AF] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[#1E3A8A] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E40AF]"
-              aria-label="Go to Login"
+              className="rounded-md bg-[#1E40AF] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[#1E3A8A]"
             >
               Login
             </Link>
@@ -165,5 +164,3 @@ export function SiteNavbar() {
     </nav>
   );
 }
-
-export default SiteNavbar;
