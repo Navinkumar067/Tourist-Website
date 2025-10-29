@@ -19,15 +19,15 @@ const registeredUsers = new Map<
 // Admin account
 registeredUsers.set("navin@123.com", {
   name: "Navin (Admin)",
-  phone: "8838892",
+  phone: "8838892353",
   password: "8838892",
 });
 
 // Demo user
-registeredUsers.set("arun@gmail.com", {
+registeredUsers.set("arun@123.com", {
   name: "Arun",
   phone: "1234567890",
-  password: "arun123",
+  password: "8838892",
 });
 
 // --- Constants ---
