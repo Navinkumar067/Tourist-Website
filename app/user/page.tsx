@@ -12,7 +12,7 @@ import { SectionHeading } from "@/components/section-heading";
 const MOCK_USER_BOOKINGS = [
   {
     id: "B101",
-    destination: "Bali",
+    destination: "India",
     date: "2025-11-02",
     time: "10:30 AM",
     payment: "Confirmed",

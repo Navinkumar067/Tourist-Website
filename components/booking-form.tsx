@@ -1,50 +1,56 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useEffect, useMemo, useRef, useState } from "react"
-import { useSearchParams, useRouter } from "next/navigation"
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Dialog, DialogContent } from "@/components/ui/dialog"
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 type FormState = {
-  name: string
-  email: string
-  phone: string
-  guests: string
-  destination: string
-  startDate: string
-  endDate: string
-  requests: string
-}
+  name: string;
+  email: string;
+  phone: string;
+  guests: string;
+  destination: string;
+  startDate: string;
+  endDate: string;
+  requests: string;
+};
 
-const DESTINATION_OPTIONS = ["Bali", "Paris", "Maldives", "Tokyo", "New York"] as const
+const DESTINATION_OPTIONS = [
+  "India",
+  "France",
+  "Japan",
+  "USA",
+  "Russia",
+] as const;
 
 const BASE_PRICING: Record<string, number> = {
-  Bali: 1200,
-  Paris: 1800,
-  Maldives: 2200,
-  Tokyo: 1600,
-  "New York": 1400,
-}
+  India: 1200,
+  France: 1800,
+  Japan: 2200,
+  USA: 1600,
+  Russia: 1400,
+};
 
 function nightsBetween(start: string, end: string) {
-  if (!start || !end) return 0
-  const s = new Date(start).getTime()
-  const e = new Date(end).getTime()
-  const diff = Math.max(0, e - s)
-  return Math.ceil(diff / (1000 * 60 * 60 * 24))
+  if (!start || !end) return 0;
+  const s = new Date(start).getTime();
+  const e = new Date(end).getTime();
+  const diff = Math.max(0, e - s);
+  return Math.ceil(diff / (1000 * 60 * 60 * 24));
 }
 
 export function BookingForm() {
-  const searchParams = useSearchParams()
-  const router = useRouter()
-  const formTopRef = useRef<HTMLDivElement>(null)
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const formTopRef = useRef<HTMLDivElement>(null);
 
-  const [open, setOpen] = useState(false)
-  const [submitting, setSubmitting] = useState(false)
+  const [open, setOpen] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const [form, setForm] = useState<FormState>({
     name: "",
     email: "",
@@ -54,55 +60,55 @@ export function BookingForm() {
     startDate: "",
     endDate: "",
     requests: "",
-  })
+  });
 
   // Prefill destination if provided from package card
   useEffect(() => {
-    const dest = searchParams.get("destination")
+    const dest = searchParams.get("destination");
     if (dest && DESTINATION_OPTIONS.includes(dest as any)) {
-      setForm((f) => ({ ...f, destination: dest }))
+      setForm((f) => ({ ...f, destination: dest }));
     }
-  }, [searchParams])
+  }, [searchParams]);
 
-  const guestsNum = Number(form.guests || "0") || 0
-  const nights = nightsBetween(form.startDate, form.endDate)
-  const base = BASE_PRICING[form.destination] ?? 0
+  const guestsNum = Number(form.guests || "0") || 0;
+  const nights = nightsBetween(form.startDate, form.endDate);
+  const base = BASE_PRICING[form.destination] ?? 0;
   const estimatedTotal = useMemo(() => {
     // Simple estimate: base per guest, + $100 per night per booking for accommodations
-    const perGuest = base * Math.max(1, guestsNum)
-    const lodging = nights > 0 ? 100 * nights : 0
-    return perGuest + lodging
-  }, [base, guestsNum, nights])
+    const perGuest = base * Math.max(1, guestsNum);
+    const lodging = nights > 0 ? 100 * nights : 0;
+    return perGuest + lodging;
+  }, [base, guestsNum, nights]);
 
   const isValid = useMemo(() => {
-    if (!form.name.trim()) return false
-    if (!/^\S+@\S+\.\S+$/.test(form.email)) return false
-    if (!form.phone.trim()) return false
-    if (!form.destination) return false
-    if (!form.startDate || !form.endDate) return false
-    if (new Date(form.endDate) < new Date(form.startDate)) return false
-    return true
-  }, [form])
+    if (!form.name.trim()) return false;
+    if (!/^\S+@\S+\.\S+$/.test(form.email)) return false;
+    if (!form.phone.trim()) return false;
+    if (!form.destination) return false;
+    if (!form.startDate || !form.endDate) return false;
+    if (new Date(form.endDate) < new Date(form.startDate)) return false;
+    return true;
+  }, [form]);
 
   function update<K extends keyof FormState>(key: K, value: FormState[K]) {
-    setForm((f) => ({ ...f, [key]: value }))
+    setForm((f) => ({ ...f, [key]: value }));
   }
 
   function scrollToFormTop() {
-    formTopRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })
+    formTopRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
   async function onSubmit(e: React.FormEvent) {
-    e.preventDefault()
+    e.preventDefault();
     if (!isValid) {
-      scrollToFormTop()
-      return
+      scrollToFormTop();
+      return;
     }
-    setSubmitting(true)
+    setSubmitting(true);
     // In a real app, call an API here
-    await new Promise((r) => setTimeout(r, 700))
-    setSubmitting(false)
-    setOpen(true)
+    await new Promise((r) => setTimeout(r, 700));
+    setSubmitting(false);
+    setOpen(true);
   }
 
   return (
@@ -161,11 +167,13 @@ export function BookingForm() {
                   onChange={(e) => update("guests", e.target.value)}
                   aria-describedby="guests-help"
                 >
-                  {Array.from({ length: 10 }, (_, i) => String(i + 1)).map((g) => (
-                    <option key={g} value={g}>
-                      {g}
-                    </option>
-                  ))}
+                  {Array.from({ length: 10 }, (_, i) => String(i + 1)).map(
+                    (g) => (
+                      <option key={g} value={g}>
+                        {g}
+                      </option>
+                    )
+                  )}
                 </select>
                 <p id="guests-help" className="mt-1 text-xs text-gray-500">
                   Choose from 1 to 10 guests.
@@ -234,7 +242,8 @@ export function BookingForm() {
             {/* Inline validation message */}
             {!isValid ? (
               <p className="mt-4 text-sm text-red-600">
-                Please complete all required fields with valid information. Ensure end date is after start date.
+                Please complete all required fields with valid information.
+                Ensure end date is after start date.
               </p>
             ) : null}
 
@@ -253,7 +262,9 @@ export function BookingForm() {
         {/* Summary */}
         <aside className="md:col-span-1">
           <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm sm:p-6">
-            <h2 className="text-lg font-semibold text-gray-900">Booking Summary</h2>
+            <h2 className="text-lg font-semibold text-gray-900">
+              Booking Summary
+            </h2>
             <dl className="mt-3 space-y-2 text-sm text-gray-700">
               <div className="flex items-center justify-between">
                 <dt className="text-gray-600">Destination</dt>
@@ -266,7 +277,9 @@ export function BookingForm() {
               <div className="flex items-center justify-between">
                 <dt className="text-gray-600">Dates</dt>
                 <dd className="font-medium">
-                  {form.startDate && form.endDate ? `${form.startDate} → ${form.endDate}` : "—"}
+                  {form.startDate && form.endDate
+                    ? `${form.startDate} → ${form.endDate}`
+                    : "—"}
                 </dd>
               </div>
               <div className="flex items-center justify-between">
@@ -275,11 +288,15 @@ export function BookingForm() {
               </div>
               <div className="flex items-center justify-between">
                 <dt className="text-gray-600">Base (per guest)</dt>
-                <dd className="font-medium">${BASE_PRICING[form.destination] ?? 0}</dd>
+                <dd className="font-medium">
+                  ${BASE_PRICING[form.destination] ?? 0}
+                </dd>
               </div>
               <div className="flex items-center justify-between">
                 <dt className="text-gray-600">Est. Total</dt>
-                <dd className="font-semibold text-[#1E40AF]">${estimatedTotal}</dd>
+                <dd className="font-semibold text-[#1E40AF]">
+                  ${estimatedTotal}
+                </dd>
               </div>
             </dl>
 
@@ -303,25 +320,35 @@ export function BookingForm() {
                 ✓
               </span>
             </div>
-            <h3 className="mt-3 text-lg font-semibold text-gray-900">Booking Successful</h3>
+            <h3 className="mt-3 text-lg font-semibold text-gray-900">
+              Booking Successful
+            </h3>
             <p className="mt-1 text-sm text-gray-600">
-              Thanks, {form.name || "Traveler"}! We’ve received your reservation. A confirmation email will be sent to{" "}
-              <span className="font-medium text-gray-800">{form.email || "your email"}</span>.
+              Thanks, {form.name || "Traveler"}! We’ve received your
+              reservation. A confirmation email will be sent to{" "}
+              <span className="font-medium text-gray-800">
+                {form.email || "your email"}
+              </span>
+              .
             </p>
 
             <div className="mt-4 rounded-md bg-gray-50 p-3 text-sm text-gray-700">
               <p>
-                <span className="font-medium">Destination:</span> {form.destination || "—"}
+                <span className="font-medium">Destination:</span>{" "}
+                {form.destination || "—"}
               </p>
               <p>
                 <span className="font-medium">Guests:</span> {guestsNum || "—"}
               </p>
               <p>
                 <span className="font-medium">Dates:</span>{" "}
-                {form.startDate && form.endDate ? `${form.startDate} → ${form.endDate}` : "—"}
+                {form.startDate && form.endDate
+                  ? `${form.startDate} → ${form.endDate}`
+                  : "—"}
               </p>
               <p>
-                <span className="font-medium">Est. Total:</span> ${estimatedTotal}
+                <span className="font-medium">Est. Total:</span> $
+                {estimatedTotal}
               </p>
             </div>
 
@@ -345,5 +372,5 @@ export function BookingForm() {
         </DialogContent>
       </Dialog>
     </>
-  )
+  );
 }
