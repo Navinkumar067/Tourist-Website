@@ -164,3 +164,5 @@ export function SiteNavbar() {
     </nav>
   );
 }
+
+export default SiteNavbar;
