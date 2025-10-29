@@ -24,8 +24,8 @@ registeredUsers.set("navin@123.com", {
 });
 
 // Demo user
-registeredUsers.set("test@example.com", {
-  name: "Test User",
+registeredUsers.set("arun@gmail.com", {
+  name: "Arun",
   phone: "1234567890",
   password: "password123",
 });
@@ -91,10 +91,6 @@ export default function LoginPage() {
               <h1 className="text-balance text-2xl font-semibold text-gray-900">
                 Login
               </h1>
-              <p className="mt-1 text-sm text-gray-600">
-                Use <strong>navin@123.com</strong> / <strong>8838892</strong> for
-                admin access, or register a new account.
-              </p>
 
               <form onSubmit={onSubmit} className="mt-6 space-y-4" noValidate>
                 <div className="grid gap-2">

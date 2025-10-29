@@ -33,7 +33,7 @@ MOCK_REGISTERED_USERS.set("navin@123.com", {
 MOCK_REGISTERED_USERS.set("arun@gmail.com", {
   name: "Arun",
   phone: "1234567890",
-  password: "12345",
+  password: "password123",
 });
 
 const MOCK_BOOKINGS = [
