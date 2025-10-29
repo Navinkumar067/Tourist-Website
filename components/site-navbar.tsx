@@ -1,14 +1,13 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { useCallback, useState } from "react"
-import { Menu } from "lucide-react"
-import { usePathname } from "next/navigation"
+import Link from "next/link";
+import { useEffect, useState, useCallback } from "react";
+import { Menu, UserCircle } from "lucide-react";
+import { useRouter, usePathname } from "next/navigation";
 
-// Simple smooth scroll helper
 function scrollToId(id: string) {
-  const el = document.getElementById(id)
-  if (el) el.scrollIntoView({ behavior: "smooth", block: "start" })
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 const navItems = [
@@ -16,28 +15,46 @@ const navItems = [
   { id: "destinations", label: "Destinations" },
   { id: "gallery", label: "Gallery" },
   { id: "contact", label: "Contact" },
-]
+];
 
 export function SiteNavbar() {
-  const [open, setOpen] = useState(false)
-  const pathname = usePathname()
-  const isHome = pathname === "/"
+  const [open, setOpen] = useState(false);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const pathname = usePathname();
+  const router = useRouter();
+  const isHome = pathname === "/";
+
+  // Load user info from localStorage
+  useEffect(() => {
+    const email = localStorage.getItem("userEmail");
+    setUserEmail(email);
+    setIsAdmin(email === "navin@123.com");
+  }, []);
 
   const onNavClick = useCallback((targetId: string) => {
-    setOpen(false)
-    scrollToId(targetId)
-  }, [])
+    setOpen(false);
+    scrollToId(targetId);
+  }, []);
+
+  const handleUserClick = () => {
+    if (isAdmin) router.push("/admin");
+    else router.push("/user");
+  };
 
   return (
-    <nav className="sticky top-0 z-50 border-b border-gray-200 bg-white/80 backdrop-blur" aria-label="Primary">
+    <nav
+      className="sticky top-0 z-50 border-b border-gray-200 bg-white/80 backdrop-blur"
+      aria-label="Primary"
+    >
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
         {/* Brand */}
         <Link
           href="/#home"
           onClick={(e) => {
             if (isHome) {
-              e.preventDefault()
-              onNavClick("home")
+              e.preventDefault();
+              onNavClick("home");
             }
           }}
           className="font-bold text-lg text-[#1E40AF]"
@@ -64,8 +81,8 @@ export function SiteNavbar() {
                   href={`/#${item.id}`}
                   onClick={(e) => {
                     if (isHome) {
-                      e.preventDefault()
-                      onNavClick(item.id)
+                      e.preventDefault();
+                      onNavClick(item.id);
                     }
                   }}
                   className="text-sm font-medium text-gray-600 transition-colors hover:text-[#1E40AF]"
@@ -76,13 +93,24 @@ export function SiteNavbar() {
             ))}
           </ul>
 
-          <Link
-            href="/login"
-            className="rounded-md bg-[#1E40AF] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[#1E3A8A] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E40AF]"
-            aria-label="Go to Login"
-          >
-            Login
-          </Link>
+          {/* Show login or user icon */}
+          {!userEmail ? (
+            <Link
+              href="/login"
+              className="rounded-md bg-[#1E40AF] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[#1E3A8A] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1E40AF]"
+              aria-label="Go to Login"
+            >
+              Login
+            </Link>
+          ) : (
+            <button
+              onClick={handleUserClick}
+              className="p-1 focus:outline-none hover:opacity-80"
+              aria-label="User Account"
+            >
+              <UserCircle className="h-8 w-8 text-[#1E40AF]" />
+            </button>
+          )}
         </div>
       </div>
 
@@ -96,10 +124,10 @@ export function SiteNavbar() {
                   href={`/#${item.id}`}
                   onClick={(e) => {
                     if (isHome) {
-                      e.preventDefault()
-                      onNavClick(item.id)
+                      e.preventDefault();
+                      onNavClick(item.id);
                     }
-                    setOpen(false)
+                    setOpen(false);
                   }}
                   className="block py-2 text-sm font-medium text-gray-700 transition-colors hover:text-[#1E40AF]"
                 >
@@ -108,22 +136,34 @@ export function SiteNavbar() {
               </li>
             ))}
 
-            {/* Login item for mobile menu */}
+            {/* Login/User Icon */}
             <li>
-              <Link
-                href="/login"
-                onClick={() => setOpen(false)}
-                className="block py-2 text-sm font-medium text-[#1E40AF] hover:underline"
-                aria-label="Go to Login"
-              >
-                Login
-              </Link>
+              {!userEmail ? (
+                <Link
+                  href="/login"
+                  onClick={() => setOpen(false)}
+                  className="block py-2 text-sm font-medium text-[#1E40AF] hover:underline"
+                >
+                  Login
+                </Link>
+              ) : (
+                <button
+                  onClick={() => {
+                    setOpen(false);
+                    handleUserClick();
+                  }}
+                  className="block py-2 text-sm font-medium text-[#1E40AF]"
+                >
+                  <UserCircle className="inline h-5 w-5 mr-1 text-[#1E40AF]" />
+                  Profile
+                </button>
+              )}
             </li>
           </ul>
         </div>
       )}
     </nav>
-  )
+  );
 }
 
-export default SiteNavbar
+export default SiteNavbar;
