@@ -1,7 +1,6 @@
 "use client";
 
 import type React from "react";
-
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Label } from "@/components/ui/label";
@@ -28,6 +27,7 @@ const DESTINATION_OPTIONS = [
   "Russia",
 ] as const;
 
+// Base price per destination
 const BASE_PRICING: Record<string, number> = {
   India: 1200,
   France: 1800,
@@ -36,6 +36,16 @@ const BASE_PRICING: Record<string, number> = {
   Russia: 1400,
 };
 
+// Matching currency symbols for each country
+const CURRENCY_SYMBOLS: Record<string, string> = {
+  India: "₹",
+  France: "€",
+  Japan: "¥",
+  USA: "$",
+  Russia: "₽",
+};
+
+// Calculate number of nights between start and end date
 function nightsBetween(start: string, end: string) {
   if (!start || !end) return 0;
   const s = new Date(start).getTime();
@@ -62,6 +72,7 @@ export function BookingForm() {
     requests: "",
   });
 
+  // Prefill destination if provided from query params
   useEffect(() => {
     const dest = searchParams.get("destination");
     if (dest && DESTINATION_OPTIONS.includes(dest as any)) {
@@ -72,6 +83,8 @@ export function BookingForm() {
   const guestsNum = Number(form.guests || "0") || 0;
   const nights = nightsBetween(form.startDate, form.endDate);
   const base = BASE_PRICING[form.destination] ?? 0;
+  const currency = CURRENCY_SYMBOLS[form.destination] || "$"; // 🪙 Get correct currency symbol
+
   const estimatedTotal = useMemo(() => {
     const perGuest = base * Math.max(1, guestsNum);
     const lodging = nights > 0 ? 100 * nights : 0;
@@ -112,7 +125,7 @@ export function BookingForm() {
     <>
       <div ref={formTopRef} />
       <div className="grid gap-6 md:grid-cols-3">
-        {/* Form */}
+        {/* ---------------------- FORM ---------------------- */}
         <form onSubmit={onSubmit} className="md:col-span-2">
           <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm sm:p-6">
             <div className="grid gap-4 sm:grid-cols-2">
@@ -128,6 +141,7 @@ export function BookingForm() {
                   required
                 />
               </div>
+
               <div className="sm:col-span-1">
                 <Label htmlFor="email">Email</Label>
                 <Input
@@ -141,19 +155,21 @@ export function BookingForm() {
                   required
                 />
               </div>
+
               <div className="sm:col-span-1">
                 <Label htmlFor="phone">Phone Number</Label>
                 <Input
                   id="phone"
                   name="phone"
                   type="tel"
-                  placeholder="+1 555 000 1234"
+                  placeholder="+91 98765 43210"
                   className="mt-1"
                   value={form.phone}
                   onChange={(e) => update("phone", e.target.value)}
                   required
                 />
               </div>
+
               <div className="sm:col-span-1">
                 <Label htmlFor="guests">Number of Guests</Label>
                 <select
@@ -162,7 +178,6 @@ export function BookingForm() {
                   className="mt-1 block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1E40AF]/60"
                   value={form.guests}
                   onChange={(e) => update("guests", e.target.value)}
-                  aria-describedby="guests-help"
                 >
                   {Array.from({ length: 10 }, (_, i) => String(i + 1)).map(
                     (g) => (
@@ -172,9 +187,6 @@ export function BookingForm() {
                     )
                   )}
                 </select>
-                <p id="guests-help" className="mt-1 text-xs text-gray-500">
-                  Choose from 1 to 10 guests.
-                </p>
               </div>
 
               <div className="sm:col-span-1">
@@ -210,6 +222,7 @@ export function BookingForm() {
                   required
                 />
               </div>
+
               <div className="sm:col-span-1">
                 <Label htmlFor="endDate">Travel Date (To)</Label>
                 <Input
@@ -236,19 +249,17 @@ export function BookingForm() {
               </div>
             </div>
 
-            {/* Inline validation message */}
-            {!isValid ? (
+            {!isValid && (
               <p className="mt-4 text-sm text-red-600">
                 Please complete all required fields with valid information.
-                Ensure end date is after start date.
               </p>
-            ) : null}
+            )}
 
             <div className="mt-6">
               <button
                 type="submit"
                 disabled={submitting}
-                className="inline-flex items-center justify-center rounded-md bg-[#FBBF24] px-4 py-2.5 text-sm font-semibold text-[#1E40AF] shadow transition hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FBBF24]/70 disabled:opacity-60"
+                className="inline-flex items-center justify-center rounded-md bg-[#FBBF24] px-4 py-2.5 text-sm font-semibold text-[#1E40AF] shadow transition hover:opacity-90"
               >
                 {submitting ? "Submitting..." : "Confirm Booking"}
               </button>
@@ -256,6 +267,7 @@ export function BookingForm() {
           </div>
         </form>
 
+        {/* ---------------------- SUMMARY ---------------------- */}
         <aside className="md:col-span-1">
           <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm sm:p-6">
             <h2 className="text-lg font-semibold text-gray-900">
@@ -271,43 +283,29 @@ export function BookingForm() {
                 <dd className="font-medium">{guestsNum || "—"}</dd>
               </div>
               <div className="flex items-center justify-between">
-                <dt className="text-gray-600">Dates</dt>
-                <dd className="font-medium">
-                  {form.startDate && form.endDate
-                    ? `${form.startDate} → ${form.endDate}`
-                    : "—"}
-                </dd>
-              </div>
-              <div className="flex items-center justify-between">
                 <dt className="text-gray-600">Nights</dt>
                 <dd className="font-medium">{nights || "—"}</dd>
               </div>
               <div className="flex items-center justify-between">
                 <dt className="text-gray-600">Base (per guest)</dt>
                 <dd className="font-medium">
-                  ${BASE_PRICING[form.destination] ?? 0}
+                  {currency}
+                  {BASE_PRICING[form.destination] ?? 0}
                 </dd>
               </div>
               <div className="flex items-center justify-between">
                 <dt className="text-gray-600">Est. Total</dt>
                 <dd className="font-semibold text-[#1E40AF]">
-                  ${estimatedTotal}
+                  {currency}
+                  {estimatedTotal}
                 </dd>
               </div>
             </dl>
-
-            <button
-              type="button"
-              onClick={scrollToFormTop}
-              className="mt-4 text-sm font-medium text-[#1E40AF] underline underline-offset-4 hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1E40AF]/60"
-            >
-              Change Selection
-            </button>
           </div>
         </aside>
       </div>
 
-      {/* Confirmation Modal */}
+      {/* ---------------------- CONFIRMATION MODAL ---------------------- */}
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="max-w-md rounded-lg p-0">
           <div className="p-5">
@@ -320,8 +318,7 @@ export function BookingForm() {
               Booking Successful
             </h3>
             <p className="mt-1 text-sm text-gray-600">
-              Thanks, {form.name || "Traveler"}! We’ve received your
-              reservation. A confirmation email will be sent to{" "}
+              Thanks, {form.name || "Traveler"}! Confirmation email sent to{" "}
               <span className="font-medium text-gray-800">
                 {form.email || "your email"}
               </span>
@@ -337,13 +334,7 @@ export function BookingForm() {
                 <span className="font-medium">Guests:</span> {guestsNum || "—"}
               </p>
               <p>
-                <span className="font-medium">Dates:</span>{" "}
-                {form.startDate && form.endDate
-                  ? `${form.startDate} → ${form.endDate}`
-                  : "—"}
-              </p>
-              <p>
-                <span className="font-medium">Est. Total:</span> $
+                <span className="font-medium">Est. Total:</span> {currency}
                 {estimatedTotal}
               </p>
             </div>
@@ -352,14 +343,14 @@ export function BookingForm() {
               <button
                 type="button"
                 onClick={() => setOpen(false)}
-                className="inline-flex items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2.5 text-sm font-semibold text-gray-900 shadow-sm transition hover:bg-gray-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1E40AF]/60"
+                className="inline-flex items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2.5 text-sm font-semibold text-gray-900 shadow-sm transition hover:bg-gray-50"
               >
                 Close
               </button>
               <button
                 type="button"
                 onClick={() => router.push("/")}
-                className="inline-flex items-center justify-center rounded-md bg-[#1E40AF] px-4 py-2.5 text-sm font-semibold text-white shadow transition hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1E40AF]/60"
+                className="inline-flex items-center justify-center rounded-md bg-[#1E40AF] px-4 py-2.5 text-sm font-semibold text-white shadow transition hover:opacity-90"
               >
                 Back to Home
               </button>

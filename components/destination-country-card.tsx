@@ -25,10 +25,10 @@ export default function DestinationCountryCard({ country }: Props) {
           />
         </div>
 
-       
         <div className="p-4">
           <h3 className="text-lg font-semibold text-gray-900">
-            {featuredPlace.name} — {country.countryName}
+            {featuredPlace.name ? `${featuredPlace.name} — ` : ""}
+            {country.countryName}
           </h3>
           <p className="mt-1 line-clamp-1 text-sm text-gray-600">
             {featuredPlace.description}
@@ -42,7 +42,7 @@ export default function DestinationCountryCard({ country }: Props) {
           )}`}
           className="inline-flex w-full items-center justify-center rounded-md bg-[#FBBF24] px-4 py-2.5 text-sm font-semibold text-[#1E40AF] shadow transition hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#FBBF24]/70"
         >
-          Book This Country
+          View This Country
         </Link>
       </div>
     </div>
