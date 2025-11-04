@@ -448,6 +448,9 @@ export function getCountries() {
 }
 
 export function getCountryBySlug(slug: string) {
+  if (!slug) {
+    return undefined;
+  }
   return COUNTRY_MAP[slug.toLowerCase()];
 }
 
