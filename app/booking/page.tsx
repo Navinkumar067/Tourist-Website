@@ -1,8 +1,18 @@
 "use client";
 
 import BookingForm from "@/components/booking-form";
-import SiteNavbar from "@/components/site-navbar"; 
-import SiteFooter from "@/components/site-footer"; 
+import SiteNavbar from "@/components/site-navbar";
+import SiteFooter from "@/components/site-footer";
+import { Suspense } from "react"; // 1. Import Suspense
+
+// A simple loading component to show while the form loads
+function BookingFormLoading() {
+  return (
+    <div className="text-center text-gray-600">
+      <p>Loading booking form...</p>
+    </div>
+  );
+}
 
 export default function BookingPage() {
   return (
@@ -19,8 +29,10 @@ export default function BookingPage() {
             </p>
           </header>
 
-          {/* Booking Form Component */}
-          <BookingForm />
+          {/* 2. Wrap BookingForm in Suspense */}
+          <Suspense fallback={<BookingFormLoading />}>
+            <BookingForm />
+          </Suspense>
         </section>
       </main>
       <SiteFooter />
