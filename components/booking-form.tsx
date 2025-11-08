@@ -11,9 +11,26 @@ import {
   COUNTRIES as COUNTRIES_CONST,
   getAllDestinations,
 } from "@/lib/destinations-data";
-import { PlaneTakeoff, CheckCircle2, Users, MapPin } from "lucide-react";
 import { PlaceSelector } from "@/components/place-selector";
-import { OriginSelector } from "@/components/origin-selector"; // <-- 1. Import new component
+import { OriginSelector } from "@/components/origin-selector";
+
+import { format } from "date-fns";
+import {
+  Calendar as CalendarIcon,
+  PlaneTakeoff,
+  CheckCircle2,
+  Users,
+  MapPin,
+} from "lucide-react";
+import { DateRange } from "react-day-picker";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 // ----------------- Types -----------------
 type Place = {
@@ -99,7 +116,7 @@ const ORIGIN_PLACES = [
   // Africa
   { displayName: "Cairo", placeName: "Burj Khalifa" }, // Mapped to UAE
   { displayName: "Cape Town", placeName: "Burj Khalifa" }, // Mapped to UAE
-].sort((a, b) => a.displayName.localeCompare(b.displayName)); 
+].sort((a, b) => a.displayName.localeCompare(b.displayName));
 // ------------------------------------
 
 // ... (All helpers, Component export, and state definitions remain the same) ...
@@ -181,10 +198,12 @@ export function BookingForm() {
   const [open, setOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
+  const [date, setDate] = useState<DateRange | undefined>(undefined);
+
   // --- Group places for the "Travel To" PlaceSelector ---
   const groupedPlaces = useMemo(() => {
     const groups: Record<string, Place[]> = {};
-    
+
     allPlaces.forEach((place) => {
       if (!groups[place.countryName]) {
         groups[place.countryName] = [];
@@ -398,6 +417,49 @@ export function BookingForm() {
                 />
               </div>
 
+              {/* Date Picker */}
+              <div className="sm:col-span-2">
+                <Label htmlFor="date">Travel Dates</Label>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      id="date"
+                      variant={"outline"}
+                      className={cn(
+                        "w-full justify-start text-left font-normal",
+                        !date && "text-muted-foreground"
+                      )}
+                    >
+                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      {date?.from ? (
+                        date.to ? (
+                          <>
+                            {format(date.from, "LLL dd, y")} -{" "}
+                            {format(date.to, "LLL dd, y")}
+                          </>
+                        ) : (
+                          format(date.from, "LLL dd, y")
+                        )
+                      ) : (
+                        <span>Pick a date range</span>
+                      )}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      initialFocus
+                      mode="range"
+                      defaultMonth={date?.from}
+                      selected={date}
+                      onSelect={setDate}
+                      numberOfMonths={2}
+                    />
+                  </PopoverContent>
+                </Popover>
+              </div>
+
+              {/* --- 2. "Travel From" (Professional Combobox) --- */}
+
               {/* --- 2. "Travel From" (Professional Combobox) --- */}
               <div>
                 <Label>Travel From</Label>
@@ -418,7 +480,7 @@ export function BookingForm() {
                   onSelect={setToPlaceName}
                 />
               </div>
-              
+
               {/* Transport Select */}
               <div className="sm:col-span-2">
                 <Label>Mode of Transport</Label>
@@ -438,7 +500,10 @@ export function BookingForm() {
               {/* Multi-place checkboxes */}
               <div className="sm:col-span-2">
                 <div className="flex justify-between items-center">
-                  <Label>Choose additional places to visit in {toPlace?.countryName || 'your destination'}</Label>
+                  <Label>
+                    Choose additional places to visit in{" "}
+                    {toPlace?.countryName || "your destination"}
+                  </Label>
                   <div className="flex gap-2">
                     <button
                       type="button"
@@ -459,9 +524,7 @@ export function BookingForm() {
 
                 <div className="mt-2 grid gap-2">
                   {toCountryPlaces.length === 0 && (
-                    <p className="text-sm text-gray-500">
-                      Loading places...
-                    </p>
+                    <p className="text-sm text-gray-500">Loading places...</p>
                   )}
                   {toCountryPlaces.map((p) => {
                     const parsed = placeNumericPrice.get(p.name) ?? {
@@ -472,7 +535,11 @@ export function BookingForm() {
                     return (
                       <label
                         key={p.name}
-                        className={`flex items-center gap-3 border p-3 rounded-md ${isDestination ? "bg-blue-50 border-blue-200" : "hover:bg-gray-50"}`}
+                        className={`flex items-center gap-3 border p-3 rounded-md ${
+                          isDestination
+                            ? "bg-blue-50 border-blue-200"
+                            : "hover:bg-gray-50"
+                        }`}
                       >
                         <input
                           type="checkbox"
@@ -536,37 +603,49 @@ export function BookingForm() {
             <h2 className="text-lg font-semibold text-gray-900">
               Booking Summary
             </h2>
-            
+
             <div className="mt-4 space-y-4">
-                <div className="flex items-center gap-3">
-                    <MapPin className="size-5 text-blue-600 flex-shrink-0" />
-                    <div className="text-sm">
-                        <p className="font-medium text-gray-800">Trip</p>
-                        <p className="text-gray-600">{fromPlace?.name ? ORIGIN_PLACES.find(op => op.placeName === fromPlace.name)?.displayName : '...'} to {toPlace?.name || '...'}</p>
-                    </div>
+              <div className="flex items-center gap-3">
+                <MapPin className="size-5 text-blue-600 flex-shrink-0" />
+                <div className="text-sm">
+                  <p className="font-medium text-gray-800">Trip</p>
+                  <p className="text-gray-600">
+                    {fromPlace?.name
+                      ? ORIGIN_PLACES.find(
+                          (op) => op.placeName === fromPlace.name
+                        )?.displayName
+                      : "..."}{" "}
+                    to {toPlace?.name || "..."}
+                  </p>
                 </div>
-                
-                <div className="flex items-center gap-3">
-                    <Users className="size-5 text-blue-600 flex-shrink-0" />
-                    <div className="text-sm">
-                        <p className="font-medium text-gray-800">Guests</p>
-                        <p className="text-gray-600">{guests} Traveler(s)</p>
-                    </div>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <Users className="size-5 text-blue-600 flex-shrink-0" />
+                <div className="text-sm">
+                  <p className="font-medium text-gray-800">Guests</p>
+                  <p className="text-gray-600">{guests} Traveler(s)</p>
                 </div>
+              </div>
             </div>
 
             <hr className="my-5 border-gray-200" />
             <dl className="space-y-3 text-sm text-gray-700">
-              
               <div className="flex items-center justify-between">
                 <dt className="flex items-center gap-2 text-gray-600">
                   <PlaneTakeoff className="size-4" />
                   <span>Transport ({selectedTransport.name})</span>
                 </dt>
-                <dd className="font-medium">{toCurrency}{formatNumber(totalTransportCost)}</dd>
+                <dd className="font-medium">
+                  {toCurrency}
+                  {formatNumber(totalTransportCost)}
+                </dd>
               </div>
               <div className="flex justify-between pl-6 text-xs text-gray-500">
-                <dt>{guests} x {toCurrency}{formatNumber(transportCostPerPerson)} / person</dt>
+                <dt>
+                  {guests} x {toCurrency}
+                  {formatNumber(transportCostPerPerson)} / person
+                </dt>
               </div>
 
               {/* THIS IS THE FIXED LINE */}
@@ -575,12 +654,18 @@ export function BookingForm() {
                   <CheckCircle2 className="size-4" />
                   <span>Activities ({selectedPlaceNames.length} selected)</span>
                 </dt>
-                <dd className="font-medium">{toCurrency}{formatNumber(totalPlacesCost)}</dd>
+                <dd className="font-medium">
+                  {toCurrency}
+                  {formatNumber(totalPlacesCost)}
+                </dd>
               </div>
               {/* END OF FIX */}
 
               <div className="flex justify-between pl-6 text-xs text-gray-500">
-                <dt>{guests} x {toCurrency}{formatNumber(placesSubtotalPerPerson)} / person</dt>
+                <dt>
+                  {guests} x {toCurrency}
+                  {formatNumber(placesSubtotalPerPerson)} / person
+                </dt>
               </div>
 
               <hr className="my-3 border-gray-200" />
@@ -607,16 +692,23 @@ export function BookingForm() {
               Booking Confirmed
             </h3>
             <p className="mt-1 text-sm text-gray-600">
-              Thanks, {name || "Traveler"}! Your trip from {fromPlace?.name ? ORIGIN_PLACES.find(op => op.placeName === fromPlace.name)?.displayName : '...'} to {toPlace?.name} is confirmed.
+              Thanks, {name || "Traveler"}! Your trip from{" "}
+              {fromPlace?.name
+                ? ORIGIN_PLACES.find((op) => op.placeName === fromPlace.name)
+                    ?.displayName
+                : "..."}{" "}
+              to {toPlace?.name} is confirmed.
             </p>
             <div className="mt-4 rounded-md bg-gray-50 p-3 text-sm text-gray-700">
               <p>
                 <span className="font-medium">Transport:</span>{" "}
-                {selectedTransport.name} ({toCurrency}{formatNumber(totalTransportCost)})
+                {selectedTransport.name} ({toCurrency}
+                {formatNumber(totalTransportCost)})
               </p>
               <p>
                 <span className="font-medium">Activities:</span>{" "}
-                {selectedPlaceNames.join(", ")} ({toCurrency}{formatNumber(totalPlacesCost)})
+                {selectedPlaceNames.join(", ")} ({toCurrency}
+                {formatNumber(totalPlacesCost)})
               </p>
               <p className="mt-2 font-medium">
                 Total: {toCurrency}
