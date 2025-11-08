@@ -6,6 +6,7 @@ export type Place = {
   imageUrl: string;
   imageAlt: string;
   price: number; // round-trip cost per person in local currency
+  categories: string[]; // <-- ADD THIS LINE
 };
 
 export type Country = {
@@ -16,9 +17,6 @@ export type Country = {
   places: Place[];
 };
 
-// lib/destinations-data.ts
-
-// ... (keep the type definitions at the top of the file)
 
 // ----------------------
 // MASTER COUNTRY DATASET
@@ -34,6 +32,7 @@ export const COUNTRIES: Country[] = [
       description: "Iconic mausoleum and a global symbol of love.",
       imageUrl: "/India/taj-mahal-agra.png",
       imageAlt: "Taj Mahal at sunset, Agra, India",
+      categories: ["iconic", "heritage", "romance"], // <-- FIX
     },
     places: [
       {
@@ -42,6 +41,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/India/taj-mahal-agra.png",
         imageAlt: "Taj Mahal at sunset, Agra, India",
         price: 2500,
+        categories: ["iconic", "heritage", "romance"],
       },
       {
         name: "Chennai Marina Beach",
@@ -49,6 +49,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/India/marina-beach.png",
         imageAlt: "Marina Beach shoreline in Chennai, India",
         price: 8500,
+        categories: ["coastal", "nature"],
       },
       {
         name: "Madurai Meenakshi Temple",
@@ -56,6 +57,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/India/meenakshi-temple.jpg",
         imageAlt: "Meenakshi Amman Temple in Madurai, India",
         price: 12000,
+        categories: ["heritage", "spiritual"],
       },
       {
         name: "Thanjavur Brihadeeswara Temple",
@@ -63,6 +65,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/India/brihadeeswara-temple.png",
         imageAlt: "Brihadeeswara Temple in Thanjavur, India",
         price: 9500,
+        categories: ["heritage", "spiritual"],
       },
       {
         name: "Amritsar Golden Temple",
@@ -70,6 +73,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/India/harmandir-sahib.jpg",
         imageAlt: "Golden Temple in Amritsar, India",
         price: 11000,
+        categories: ["iconic", "heritage", "spiritual"],
       },
       {
         name: "Alleppey Backwaters",
@@ -77,6 +81,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/India/Alleppey.jpg",
         imageAlt: "Houseboat in Alleppey, Kerala",
         price: 15500,
+        categories: ["nature", "coastal", "romance"],
       },
       {
         name: "India Gate",
@@ -84,6 +89,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/India/Delhi.jpg",
         imageAlt: "India Gate at dusk, New Delhi",
         price: 7000,
+        categories: ["iconic", "heritage"],
       },
       {
         name: "Mathura & Vrindavan",
@@ -91,6 +97,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/India/Mathura-and-Vrindavan.jpg",
         imageAlt: "Prem Mandir in Vrindavan",
         price: 9000,
+        categories: ["heritage", "spiritual"],
       },
       {
         name: "Mahabalipuram",
@@ -98,6 +105,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/India/mahabalipuram.png",
         imageAlt: "Shore Temple at Mahabalipuram",
         price: 8200,
+        categories: ["heritage", "coastal"],
       },
       {
         name: "Pamban Bridge",
@@ -105,6 +113,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/India/pamban-bridge.png",
         imageAlt: "Pamban Bridge over the sea in Rameswaram",
         price: 13000,
+        categories: ["iconic", "coastal", "adventure"],
       },
     ],
   },
@@ -118,6 +127,7 @@ export const COUNTRIES: Country[] = [
       description: "Vast layered red-rock canyon carved by the Colorado River.",
       imageUrl: "/USA/grand-canyon-arizona.png",
       imageAlt: "Grand Canyon cliffs at sunset, Arizona, USA",
+      categories: ["iconic", "nature", "adventure"], // <-- FIX
     },
     places: [
       {
@@ -126,6 +136,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/USA/grand-canyon-arizona.png",
         imageAlt: "Grand Canyon scenic overlook",
         price: 450,
+        categories: ["iconic", "nature", "adventure"],
       },
       {
         name: "New York Central Park",
@@ -133,6 +144,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/USA/central-park-autumn.png",
         imageAlt: "Central Park, New York City",
         price: 150,
+        categories: ["iconic", "nature"],
       },
       {
         name: "Golden Gate Bridge",
@@ -140,6 +152,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/USA/golden-gate-bridge.png",
         imageAlt: "Golden Gate Bridge with fog in San Francisco",
         price: 980,
+        categories: ["iconic", "coastal"],
       },
       {
         name: "Yosemite Valley",
@@ -147,6 +160,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/USA/yosemite-valley.png",
         imageAlt: "Yosemite Valley view with El Capitan",
         price: 620,
+        categories: ["nature", "adventure"],
       },
       {
         name: "Orlando Theme Parks",
@@ -154,6 +168,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/USA/orlando.jpg",
         imageAlt: "Orlando city lights",
         price: 1800,
+        categories: ["adventure"],
       },
       {
         name: "Statue of Liberty",
@@ -161,6 +176,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/USA/new-york.jpg",
         imageAlt: "Statue of Liberty with New York skyline",
         price: 200,
+        categories: ["iconic", "heritage", "coastal"],
       },
       {
         name: "Los Angeles",
@@ -168,6 +184,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/USA/los-angeles.jpg",
         imageAlt: "Los Angeles freeway at sunset",
         price: 750,
+        categories: ["iconic"],
       },
       {
         name: "New Orleans",
@@ -175,6 +192,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/USA/new-orleans-statue-garden.jpg",
         imageAlt: "Jackson Square in New Orleans",
         price: 550,
+        categories: ["heritage", "arts"],
       },
       {
         name: "Washington, D.C.",
@@ -182,6 +200,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/USA/washington.jpg",
         imageAlt: "United States Capitol building at night",
         price: 400,
+        categories: ["heritage", "iconic"],
       },
     ],
   },
@@ -195,6 +214,7 @@ export const COUNTRIES: Country[] = [
       description: "Paris’s iron lattice icon and sweeping city panoramas.",
       imageUrl: "/France/eiffel-tower.png",
       imageAlt: "Eiffel Tower, Paris, France",
+      categories: ["iconic", "romance"], // <-- FIX
     },
     places: [
       {
@@ -203,6 +223,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/France/eiffel-tower.png",
         imageAlt: "Eiffel Tower from the Champ de Mars",
         price: 80,
+        categories: ["iconic", "romance"],
       },
       {
         name: "Mont Saint-Michel",
@@ -210,6 +231,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/France/mont-saint-michel.png",
         imageAlt: "Mont Saint-Michel at high tide",
         price: 550,
+        categories: ["iconic", "heritage", "coastal"],
       },
       {
         name: "Louvre Museum",
@@ -217,6 +239,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/France/louvre-museum.png",
         imageAlt: "Louvre Pyramid in Paris",
         price: 120,
+        categories: ["heritage", "arts"],
       },
       {
         name: "Versailles Palace",
@@ -224,6 +247,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/France/versailles.jpg",
         imageAlt: "Palace of Versailles",
         price: 180,
+        categories: ["heritage", "arts"],
       },
       {
         name: "Seine River Cruise",
@@ -231,6 +255,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/France/seine-cruise-paris.png",
         imageAlt: "Boat cruise on the Seine river with Eiffel Tower",
         price: 60,
+        categories: ["romance", "coastal"],
       },
       {
         name: "Strasbourg",
@@ -238,6 +263,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/France/strasbourg.jpg",
         imageAlt: "Strasbourg city square with Christmas tree",
         price: 400,
+        categories: ["heritage"],
       },
       {
         name: "Verdon Gorge",
@@ -245,6 +271,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/France/verdon_gorge.jpg",
         imageAlt: "Boats on the turquoise water of Verdon Gorge",
         price: 350,
+        categories: ["nature", "adventure"],
       },
     ],
   },
@@ -258,6 +285,7 @@ export const COUNTRIES: Country[] = [
       description: "Pathways of vermilion torii gates in Kyoto’s hills.",
       imageUrl: "/Japan/fushimi-inari.png",
       imageAlt: "Torii gates at Fushimi Inari Shrine, Kyoto, Japan",
+      categories: ["iconic", "heritage", "spiritual", "nature"], // <-- FIX
     },
     places: [
       {
@@ -266,6 +294,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/Japan/fushimi-inari.png",
         imageAlt: "Vermilion torii gates in Kyoto",
         price: 18000,
+        categories: ["iconic", "heritage", "spiritual", "nature"],
       },
       {
         name: "Tokyo Skytree",
@@ -273,6 +302,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/Japan/tokyo-skytree-night.png",
         imageAlt: "Tokyo Skytree tower and skyline",
         price: 8500,
+        categories: ["iconic", "modern"],
       },
       {
         name: "Mount Fuji",
@@ -280,6 +310,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/Japan/Mount Fuji.jpg",
         imageAlt: "Mount Fuji with pagoda in foreground",
         price: 32000,
+        categories: ["iconic", "nature", "adventure", "spiritual"],
       },
       {
         name: "Arashiyama Bamboo Grove",
@@ -287,6 +318,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/Japan/arashiyama-bamboo-grove.png",
         imageAlt: "Walking path through Arashiyama Bamboo Grove",
         price: 17000,
+        categories: ["nature", "iconic"],
       },
       {
         name: "Historic Nara",
@@ -294,6 +326,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/Japan/Historic Nara.jpg",
         imageAlt: "Todai-ji Temple in Nara at dusk",
         price: 22000,
+        categories: ["heritage", "nature", "spiritual"],
       },
       {
         name: "Kyoto Temple",
@@ -301,6 +334,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/Japan/kyoto-temple-autumn-leaves.png",
         imageAlt: "Japanese temple in Kyoto during autumn",
         price: 19000,
+        categories: ["heritage", "nature", "spiritual"],
       },
       {
         name: "Sapporo, Hokkaido",
@@ -308,6 +342,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/Japan/Sapporo, Hokkaido.jpg",
         imageAlt: "Odori Park in Sapporo, Hokkaido",
         price: 35000,
+        categories: ["nature", "adventure"],
       },
     ],
   },
@@ -321,6 +356,7 @@ export const COUNTRIES: Country[] = [
       description: "Harbourside icon with sail-like shells and culture.",
       imageUrl: "/Australia/sydney-opera-house.png",
       imageAlt: "Sydney Opera House by the harbour",
+      categories: ["iconic", "arts", "coastal"], // <-- FIX
     },
     places: [
       {
@@ -329,6 +365,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/Australia/sydney-opera-house.png",
         imageAlt: "Sydney Harbour view",
         price: 85,
+        categories: ["iconic", "arts", "coastal"],
       },
       {
         name: "Great Barrier Reef",
@@ -336,6 +373,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/Australia/great-barrier-reef.png",
         imageAlt: "Coral reef underwater scene",
         price: 250,
+        categories: ["nature", "adventure", "coastal"],
       },
       {
         name: "Uluru",
@@ -343,6 +381,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/Australia/uluru.png",
         imageAlt: "Uluru at dusk in Central Australia",
         price: 900,
+        categories: ["iconic", "nature", "heritage", "spiritual"],
       },
       {
         name: "Bondi Beach",
@@ -350,6 +389,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/Australia/bondi-beach.jpg",
         imageAlt: "Aerial view of Bondi Beach, Sydney",
         price: 120,
+        categories: ["iconic", "coastal", "nature"],
       },
       {
         name: "Kakadu National Park",
@@ -357,6 +397,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/Australia/kakadu-national-park.jpg",
         imageAlt: "Waterfall in Kakadu National Park",
         price: 400,
+        categories: ["nature", "adventure", "heritage"],
       },
       {
         name: "Sydney Harbour Bridge",
@@ -364,6 +405,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/Australia/sydney-harbor.jpg",
         imageAlt: "Sydney Harbour Bridge",
         price: 100,
+        categories: ["iconic", "adventure", "coastal"],
       },
     ],
   },
@@ -377,6 +419,7 @@ export const COUNTRIES: Country[] = [
       description: "Ancient Roman amphitheatre and historic symbol.",
       imageUrl: "/Italy/colosseum-rome.png",
       imageAlt: "Colosseum exterior, Rome, Italy",
+      categories: ["iconic", "heritage"], // <-- FIX
     },
     places: [
       {
@@ -385,6 +428,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/Italy/colosseum-rome.png",
         imageAlt: "Colosseum arches in Rome",
         price: 75,
+        categories: ["iconic", "heritage"],
       },
       {
         name: "Rialto Bridge",
@@ -392,6 +436,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/Italy/ponte.jpg",
         imageAlt: "Rialto Bridge in Venice",
         price: 60,
+        categories: ["iconic", "heritage", "romance"],
       },
       {
         name: "Vatican City",
@@ -399,6 +444,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/Italy/vatican.jpg",
         imageAlt: "St. Peter’s Basilica, Vatican City",
         price: 120,
+        categories: ["iconic", "heritage", "spiritual", "arts"],
       },
       {
         name: "Amalfi Coast",
@@ -406,6 +452,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/Italy/amalfi.jpg",
         imageAlt: "Positano village on the Amalfi Coast at night",
         price: 600,
+        categories: ["nature", "coastal", "romance", "adventure"],
       },
       {
         name: "Sacre-Coeur Basilica",
@@ -413,6 +460,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/Italy/basilica-scaled.jpeg",
         imageAlt: "Sacre-Coeur Basilica in Paris",
         price: 90,
+        categories: ["heritage", "spiritual", "arts"], // Sits in France, but categorized
       },
       {
         name: "Venice Grand Canal",
@@ -420,6 +468,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/Italy/canal_grande.jpg",
         imageAlt: "Kayaks and boats on the Grand Canal in Venice",
         price: 150,
+        categories: ["iconic", "coastal", "romance"],
       },
     ],
   },
@@ -433,6 +482,7 @@ export const COUNTRIES: Country[] = [
       description: "Victorian bascule bridge over the Thames.",
       imageUrl: "/UK/tower-bridge-london.jpg",
       imageAlt: "Tower Bridge, London, UK",
+      categories: ["iconic", "heritage"], // <-- FIX
     },
     places: [
       {
@@ -441,6 +491,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/UK/tower-bridge-london.jpg",
         imageAlt: "Tower Bridge close-up",
         price: 25,
+        categories: ["iconic", "heritage"],
       },
       {
         name: "Westminster Abbey",
@@ -448,6 +499,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/UK/westminster-abbey-london.jpg",
         imageAlt: "Westminster Abbey at dusk",
         price: 30,
+        categories: ["iconic", "heritage", "spiritual"],
       },
       {
         name: "Big Ben",
@@ -455,6 +507,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/UK/big-ben-london.jpg",
         imageAlt: "Big Ben clock tower at night",
         price: 40,
+        categories: ["iconic", "heritage"],
       },
       {
         name: "National Gallery",
@@ -462,6 +515,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/UK/national-gallery-london.jpg",
         imageAlt: "The National Gallery in Trafalgar Square",
         price: 20,
+        categories: ["heritage", "arts"],
       },
       {
         name: "Natural History Museum",
@@ -469,6 +523,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/UK/national-history-museum-london.jpg",
         imageAlt: "Natural History Museum exterior in London",
         price: 22,
+        categories: ["heritage", "arts"],
       },
       {
         name: "St. James's Park",
@@ -476,6 +531,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/UK/st-jamess-park-london.jpg",
         imageAlt: "St. James's Park lake with London Eye",
         price: 10,
+        categories: ["nature"],
       },
     ],
   },
@@ -489,6 +545,7 @@ export const COUNTRIES: Country[] = [
       description: "SkyPark-topped hotel shaping the city skyline.",
       imageUrl: "/Singapore/MarinabaySand.jpg",
       imageAlt: "Marina Bay Sands, Singapore",
+      categories: ["iconic", "modern"], // <-- FIX
     },
     places: [
       {
@@ -497,6 +554,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/Singapore/MarinabaySand.jpg",
         imageAlt: "Marina Bay Sands in evening lights",
         price: 32,
+        categories: ["iconic", "modern"],
       },
       {
         name: "Sentosa Island",
@@ -504,6 +562,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/Singapore/Sentosa-Island.jpg",
         imageAlt: "Sentosa Island beach",
         price: 70,
+        categories: ["adventure", "coastal"],
       },
       {
         name: "Gardens by the Bay",
@@ -511,6 +570,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/Singapore/Gardens-by-the-Bay.jpg",
         imageAlt: "Supertree Grove at Gardens by the Bay",
         price: 45,
+        categories: ["iconic", "nature", "modern"],
       },
       {
         name: "Merlion Park",
@@ -518,6 +578,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/Singapore/Merlion-Park-Singapore.jpg",
         imageAlt: "Merlion statue at night with city skyline",
         price: 10,
+        categories: ["iconic", "coastal"],
       },
       {
         name: "Sri Mariamman Temple",
@@ -525,6 +586,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/Singapore/Sri-Mariamman-Temple.jpg",
         imageAlt: "Ornate statues on the roof of Sri Mariamman Temple",
         price: 15,
+        categories: ["heritage", "spiritual"],
       },
     ],
   },
@@ -538,6 +600,7 @@ export const COUNTRIES: Country[] = [
       description: "Gaudi's unfinished basilica, a masterpiece of Modernism.",
       imageUrl: "/Spain/sagrada-familia.jpg",
       imageAlt: "Sagrada Familia Basilica in Barcelona, Spain",
+      categories: ["iconic", "heritage", "spiritual", "arts"], // <-- FIX
     },
     places: [
       {
@@ -546,6 +609,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/Spain/sagrada-familia.jpg",
         imageAlt: "Sagrada Familia exterior",
         price: 45,
+        categories: ["iconic", "heritage", "spiritual", "arts"],
       },
       {
         name: "Alhambra Palace",
@@ -553,6 +617,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/Spain/alhambra-granada.jpg",
         imageAlt: "Alhambra Palace overlooking Granada",
         price: 65,
+        categories: ["iconic", "heritage", "romance"],
       },
       {
         name: "City of Arts and Sciences",
@@ -560,6 +625,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/Spain/city-of-arts-valencia.jpg",
         imageAlt: "City of Arts and Sciences building in Valencia",
         price: 50,
+        categories: ["modern", "arts"],
       },
       {
         name: "Mosque-Cathedral of Córdoba",
@@ -567,6 +633,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/Spain/cordoba-mosque.jpg",
         imageAlt: "Interior arches of the Mosque-Cathedral of Córdoba",
         price: 40,
+        categories: ["iconic", "heritage", "spiritual"],
       },
       {
         name: "Nerja, Costa del Sol",
@@ -574,6 +641,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/Spain/nerja-costa-del-sol.jpg",
         imageAlt: "Beach in Nerja, Costa del Sol",
         price: 250,
+        categories: ["coastal", "nature", "romance"],
       },
       {
         name: "Plaza de España",
@@ -581,6 +649,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/Spain/plaza-de-espana-seville.jpg",
         imageAlt: "Plaza de España in Seville",
         price: 30,
+        categories: ["iconic", "heritage"],
       },
     ],
   },
@@ -594,6 +663,7 @@ export const COUNTRIES: Country[] = [
       description: "Ornate royal complex at Bangkok’s heart.",
       imageUrl: "/Thailand/grand-palace.jpg",
       imageAlt: "Grand Palace in Bangkok, Thailand",
+      categories: ["iconic", "heritage", "spiritual"], // <-- FIX
     },
     places: [
       {
@@ -602,6 +672,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/Thailand/grand-palace.jpg",
         imageAlt: "Grand Palace complex in Bangkok",
         price: 1500,
+        categories: ["iconic", "heritage", "spiritual"],
       },
       {
         name: "Phi Phi Islands",
@@ -609,6 +680,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/Thailand/Phi-Phi.jpg",
         imageAlt: "Phi Phi islands and bay",
         price: 3200,
+        categories: ["nature", "coastal", "adventure", "romance"],
       },
       {
         name: "Chiang Mai",
@@ -616,6 +688,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/Thailand/chiang.jpeg",
         imageAlt: "Lantern festival in Chiang Mai",
         price: 2800,
+        categories: ["heritage", "spiritual", "arts"],
       },
       {
         name: "Doi Inthanon",
@@ -623,6 +696,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/Thailand/doi-inthanon.jpg",
         imageAlt: "Royal pagodas at Doi Inthanon",
         price: 2500,
+        categories: ["nature", "spiritual"],
       },
     ],
   },
@@ -636,6 +710,7 @@ export const COUNTRIES: Country[] = [
       description: "Iconic cathedral in Moscow's Red Square.",
       imageUrl: "/Russia/moscow.jpg",
       imageAlt: "St. Basil's Cathedral in Moscow",
+      categories: ["iconic", "heritage", "spiritual"], // <-- FIX
     },
     places: [
       {
@@ -644,6 +719,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/Russia/moscow.jpg",
         imageAlt: "St. Basil's Cathedral, Moscow",
         price: 1500,
+        categories: ["iconic", "heritage", "spiritual"],
       },
       {
         name: "Saint Petersburg Canals",
@@ -651,6 +727,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/Russia/saint-petersburg.jpg",
         imageAlt: "St. Petersburg canal at night",
         price: 1800,
+        categories: ["coastal", "romance"],
       },
       {
         name: "Kazan Kremlin",
@@ -658,6 +735,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/Russia/kazan.jpg",
         imageAlt: "The Kul Sharif Mosque in Kazan Kremlin",
         price: 1200,
+        categories: ["heritage", "spiritual"],
       },
       {
         name: "Kizhi Island",
@@ -665,6 +743,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/Russia/kizhi-island.jpg",
         imageAlt: "Wooden churches on Kizhi Island",
         price: 2000,
+        categories: ["heritage", "nature"],
       },
       {
         name: "Valaam Archipelago",
@@ -672,6 +751,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/Russia/valaam.jpg",
         imageAlt: "Rocky coast of Valaam Island",
         price: 1700,
+        categories: ["nature", "spiritual", "adventure"],
       },
       {
         name: "Vladivostok",
@@ -679,6 +759,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/Russia/vladivostok.jpg",
         imageAlt: "View of the Zolotoy Bridge in Vladivostok",
         price: 3000,
+        categories: ["coastal", "modern"],
       },
     ],
   },
@@ -692,6 +773,7 @@ export const COUNTRIES: Country[] = [
       description: "World’s tallest tower with sweeping desert views.",
       imageUrl: "/UAE/burj-khalifa.jpg",
       imageAlt: "Burj Khalifa towering over Dubai skyline",
+      categories: ["iconic", "modern"], // <-- FIX
     },
     places: [
       {
@@ -700,6 +782,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/UAE/burj-khalifa.jpg",
         imageAlt: "Burj Khalifa and Dubai fountains",
         price: 180,
+        categories: ["iconic", "modern"],
       },
       {
         name: "Palm Jumeirah",
@@ -707,6 +790,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/UAE/PalmJumeirah.jpg",
         imageAlt: "Palm Jumeirah aerial view",
         price: 750,
+        categories: ["iconic", "modern", "coastal"],
       },
       {
         name: "Sheikh Zayed Grand Mosque",
@@ -714,6 +798,7 @@ export const COUNTRIES: Country[] = [
         imageUrl: "/UAE/Sheikh Zayed Grand Mosque.jpg",
         imageAlt: "Courtyard of Sheikh Zayed Grand Mosque",
         price: 100,
+        categories: ["iconic", "heritage", "spiritual"],
       },
     ],
   },
@@ -749,4 +834,11 @@ export function getAllDestinations() {
 export function getCurrencySymbol(countryName: string) {
   const country = COUNTRIES.find((c) => c.countryName === countryName);
   return country ? country.currencySymbol : "¤";
+}
+
+export function getPlacesByCategory(categorySlug: string) {
+  const allPlaces = getAllDestinations();
+  return allPlaces.filter(place => 
+    place.categories && place.categories.includes(categorySlug)
+  );
 }
